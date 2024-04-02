@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Registrasi Pertemuan 6</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 10px;
+      border: 5px solid #000000;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    form p {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Form Registrasi</h1>
+  <form id="registrationForm" name="registrationForm" method="post" action="proses.php">
+    <p>
+      <label for="nama">Nama:</label>
+      <input type="text" name="nama" id="nama" />
+      <span id="namaSpan" class="error"></span>
+    </p>
+    <p>
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" />
+      <span id="usernameSpan" class="error"></span>
+    </p>
+    <p>
+      <label for="email">Email:</label>
+      <input type="email" name="email" id="email" />
+      <span id="emailSpan" class="error"></span>
+    </p>
+    <p>
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" />
+      <span id="passwordSpan" class="error"></span>
+    </p>
+    <p>
+      <label for="konfirmasi_password">Konfirmasi Password:</label>
+      <input type="password" name="konfirmasi_password" id="konfirmasi_password" />
+      <span id="konfirmasiPasswordSpan" class="error"></span>
+    </p>
+    <p>
+      <label for="no_telepon">No Telepon:</label>
+      <input type="tel" name="no_telepon" id="no_telepon" />
+      <span id="noTeleponSpan" class="error"></span>
+    </p>
+    <p>
+        <label for="jenis_kelamin">Jenis Kelamin:</label>
+       
+        <label for="jenis_kelamin_pria">Pria</label>
+        <input type="radio" name="jenis_kelamin" id="jenis_kelamin_pria" value="Pria" />
+        
+        <label for="jenis_kelamin_wanita">Wanita</label>
+        <input type="radio" name="jenis_kelamin" id="jenis_kelamin_wanita" value="Wanita" />
+        <span id="jenisKelaminSpan" class="error"></span>
+      </p>
+    <p>
+      <label for="website">Alamat Website:</label>
+      <input type="url" name="website" id="website" />
+      <span id="websiteSpan" class="error"></span>
+    </p>
+    <p>
+      <input type="submit" name="submit" id="submit" value="Daftar" />
+    </p>
+  </form>
+  <script>
+    document
+        .getElementById("registrationForm")
+        .addEventListener("submit", function (event) {
+          let namaNode = document.getElementById("nama");
+          let usernameNode = document.getElementById("username");
+          let emailNode = document.getElementById("email");
+          let passwordNode = document.getElementById("password");
+          let konfirmasiPasswordNode = document.getElementById(
+            "konfirmasi_password"
+          );
+          let noTeleponNode = document.getElementById("no_telepon");
+          let jenisKelaminNodePria =
+            document.getElementById("jenis_kelamin_pria");
+          let jenisKelaminNodeWanita = document.getElementById(
+            "jenis_kelamin_wanita"
+          );
+          let websiteNode = document.getElementById("website");
+
+          let namaSpanNode = document.getElementById("namaSpan");
+          let usernameSpanNode = document.getElementById("usernameSpan");
+          let emailSpanNode = document.getElementById("emailSpan");
+          let passwordSpanNode = document.getElementById("passwordSpan");
+          let konfirmasiPasswordSpanNode = document.getElementById(
+            "konfirmasiPasswordSpan"
+          );
+          let noTeleponSpanNode = document.getElementById("noTeleponSpan");
+          let jenisKelaminSpanNode =
+            document.getElementById("jenisKelaminSpan");
+          let websiteSpanNode = document.getElementById("websiteSpan");
+
+          let namaError = "";
+          let usernameError = "";
+          let emailError = "";
+          let passwordError = "";
+          let konfirmasiPasswordError = "";
+          let noTeleponError = "";
+          let jenisKelaminError = "";
+          let websiteError = "";
+
+          // Validasi Nama
+          if (namaNode.value.trim() === "") {
+            namaError = "*Nama harus diisi";
+          }
+
+          // Validasi Username
+          if (usernameNode.value.trim() === "") {
+            usernameError = "*Username harus diisi";
+          }
+
+          // Validasi Email
+          if (emailNode.value.trim() === "") {
+            emailError = "*Email harus diisi";
+          } else if (!validateEmail(emailNode.value.trim())) {
+            emailError = "*Email tidak valid";
+          }
+
+          // Validasi Password
+          if (passwordNode.value.trim() === "") {
+            passwordError = "*Password harus diisi";
+          }
+
+          // Validasi Konfirmasi Password
+          if (konfirmasiPasswordNode.value.trim() === "") {
+            konfirmasiPasswordError = "*Konfirmasi password harus diisi";
+          } else if (
+            konfirmasiPasswordNode.value.trim() !== passwordNode.value.trim()
+          ) {
+            konfirmasiPasswordError = "*Konfirmasi password tidak cocok";
+          }
+
+          // Validasi No Telepon
+          if (noTeleponNode.value.trim() === "") {
+            noTeleponError = "*Nomor telepon harus diisi";
+          }
+
+          // Validasi Jenis Kelamin
+          if (
+            !jenisKelaminNodePria.checked &&
+            !jenisKelaminNodeWanita.checked
+          ) {
+            jenisKelaminError = "*Jenis kelamin harus dipilih";
+          }
+
+          // Validasi Alamat Website
+          if (websiteNode.value.trim() === "") {
+            websiteError = "*Alamat website harus diisi";
+          }
+
+          if (namaError !== "") {
+            namaSpanNode.innerHTML = namaError;
+            namaSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (usernameError !== "") {
+            usernameSpanNode.innerHTML = usernameError;
+            usernameSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (emailError !== "") {
+            emailSpanNode.innerHTML = emailError;
+            emailSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (passwordError !== "") {
+            passwordSpanNode.innerHTML = passwordError;
+            passwordSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (konfirmasiPasswordError !== "") {
+            konfirmasiPasswordSpanNode.innerHTML = konfirmasiPasswordError;
+            konfirmasiPasswordSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (noTeleponError !== "") {
+            noTeleponSpanNode.innerHTML = noTeleponError;
+            noTeleponSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (jenisKelaminError !== "") {
+            jenisKelaminSpanNode.innerHTML = jenisKelaminError;
+            jenisKelaminSpanNode.className = "error";
+            event.preventDefault();
+          }
+
+          if (websiteError !== "") {
+            websiteSpanNode.innerHTML = websiteError;
+            websiteSpanNode.className = "error";
+            event.preventDefault();
+          }
+        });
+
+      function validateEmail(email) {
+        // Regular expression for validating an email address
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+      }
+  </script>
+</body>
+</html>
